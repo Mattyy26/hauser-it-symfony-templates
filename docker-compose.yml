@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  symfony-apache-php81:
+    image: symfony-apache-php81:dev
+    container_name: symfony-apache-php81
+    build:
+      context: ./docker
+      dockerfile: ./Dockerfile.dev
+    hostname: 'symfony-template.ssemi.cz'
+    ports:
+      - "82:82" # HOST_PORT:CONTAINER_PORT
+    #    network_mode: "host" # sdileni localhost s hostem, pozor na konflikt portu, viz. apache.ports.conf a apache.vhost.conf, nefunguje na ios
+    volumes:
+      - .:/var/www
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+      - ./log:/var/log/nette:rw
+      - ./docker/apache.ports.conf:/etc/apache2/ports.conf
+      - ./docker/apache.vhost.conf:/etc/apache2/sites-enabled/vhost.conf
+  mysqldb:
+    image: mariadb:latest
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: pokus
+      MYSQL_DATABASE: pokus
+      MYSQL_USER: pokus
+      MYSQL_PASSWORD: pokus
+    volumes:
+      - ./data/database:/var/lib/mysql
+      - ./docker/mysql/mariadb.cnf:/etc/mysql/mariadb.cnf
+
+
