@@ -14,21 +14,21 @@ class Users
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $nane;
+    private $name;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNane(): ?string
+    public function getName(): ?string
     {
-        return $this->nane;
+        return $this->name;
     }
 
-    public function setNane(string $nane): self
+    public function setName(string $name): self
     {
-        $this->nane = $nane;
+        $this->name = $name;
 
         return $this;
     }

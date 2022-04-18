@@ -73,4 +73,18 @@ class AddressRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function getAllData(){
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT * FROM users";
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+
+    }
 }

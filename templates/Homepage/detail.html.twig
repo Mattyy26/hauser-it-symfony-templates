@@ -2,7 +2,21 @@
 
 {% block body %}
     <h1>Detail</h1>
-{{ id }}
+    {{ id }}
+    {# o hodne horsi nez late testujeme zda je to mozne iterovat #}
+    {% if data is iterable %}
+        <ul>
+            {% for key, value in data %}
+                <li>{{ key }}: {{ value }}</li>
+                {# to je nejaky iterator #}
+                {% if loop.last %}
+                <hr style="border: 1px solid red">
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{{ path('homepage_default') }}">Homepage default</a>
 {% endblock %}
 
 {% block stylesheets %}{% endblock %}
