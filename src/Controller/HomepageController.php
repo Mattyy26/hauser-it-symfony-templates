@@ -30,6 +30,9 @@ class HomepageController extends BaseController
 
 
     /**
+     * @param ManagerRegistry $doctrine
+     * @param UsersRepository $user
+     * @return Response
      * @Route("/detail", name="homepage_detail")
      */
     public function detail(ManagerRegistry $doctrine, UsersRepository $user): Response
@@ -94,6 +97,17 @@ class HomepageController extends BaseController
         $data = array('houska', 'rohlik', 'chleba');
 
         return $this->render("Homepage/detail.html.twig", array('id' => 5, 'data' => $data));
+    }
+
+    /**
+     * @Route("/form-test", name="homepage_form_test")
+     */
+    public function formTest(ManagerRegistry $doctrine): Response
+    {
+
+
+
+        return $this->render("Homepage/form-test.html.twig");
     }
 
 }
