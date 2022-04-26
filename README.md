@@ -55,6 +55,11 @@ DATABASE_URL="mysql://pokus:pokus@mysqldb:3306/pokus?serverVersion=mariadb-10.7.
 ## Základní příkazy pro doctrine
 Příkazy zadáváme v docker containeru
 
+#### nainstalujte
+```sh
+composer require symfony/console
+```
+
 #### vypiše seznam příkazů
 ```sh
 php bin/console list make
