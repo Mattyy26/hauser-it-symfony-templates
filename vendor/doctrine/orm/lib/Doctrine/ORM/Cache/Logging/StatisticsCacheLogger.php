@@ -15,13 +15,13 @@ use function array_sum;
  */
 class StatisticsCacheLogger implements CacheLogger
 {
-    /** @var array<string, int> */
+    /** @var int[] */
     private $cacheMissCountMap = [];
 
-    /** @var array<string, int> */
+    /** @var int[] */
     private $cacheHitCountMap = [];
 
-    /** @var array<string, int> */
+    /** @var int[] */
     private $cachePutCountMap = [];
 
     /**
@@ -29,8 +29,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function collectionCacheMiss($regionName, CollectionCacheKey $key)
     {
-        $this->cacheMissCountMap[$regionName]
-            = ($this->cacheMissCountMap[$regionName] ?? 0) + 1;
+        $this->cacheMissCountMap[$regionName] = isset($this->cacheMissCountMap[$regionName])
+            ? $this->cacheMissCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -38,8 +39,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function collectionCacheHit($regionName, CollectionCacheKey $key)
     {
-        $this->cacheHitCountMap[$regionName]
-            = ($this->cacheHitCountMap[$regionName] ?? 0) + 1;
+        $this->cacheHitCountMap[$regionName] = isset($this->cacheHitCountMap[$regionName])
+            ? $this->cacheHitCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -47,8 +49,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function collectionCachePut($regionName, CollectionCacheKey $key)
     {
-        $this->cachePutCountMap[$regionName]
-            = ($this->cachePutCountMap[$regionName] ?? 0) + 1;
+        $this->cachePutCountMap[$regionName] = isset($this->cachePutCountMap[$regionName])
+            ? $this->cachePutCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -56,8 +59,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function entityCacheMiss($regionName, EntityCacheKey $key)
     {
-        $this->cacheMissCountMap[$regionName]
-            = ($this->cacheMissCountMap[$regionName] ?? 0) + 1;
+        $this->cacheMissCountMap[$regionName] = isset($this->cacheMissCountMap[$regionName])
+            ? $this->cacheMissCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -65,8 +69,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function entityCacheHit($regionName, EntityCacheKey $key)
     {
-        $this->cacheHitCountMap[$regionName]
-            = ($this->cacheHitCountMap[$regionName] ?? 0) + 1;
+        $this->cacheHitCountMap[$regionName] = isset($this->cacheHitCountMap[$regionName])
+            ? $this->cacheHitCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -74,8 +79,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function entityCachePut($regionName, EntityCacheKey $key)
     {
-        $this->cachePutCountMap[$regionName]
-            = ($this->cachePutCountMap[$regionName] ?? 0) + 1;
+        $this->cachePutCountMap[$regionName] = isset($this->cachePutCountMap[$regionName])
+            ? $this->cachePutCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -83,8 +89,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function queryCacheHit($regionName, QueryCacheKey $key)
     {
-        $this->cacheHitCountMap[$regionName]
-            = ($this->cacheHitCountMap[$regionName] ?? 0) + 1;
+        $this->cacheHitCountMap[$regionName] = isset($this->cacheHitCountMap[$regionName])
+            ? $this->cacheHitCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -92,8 +99,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function queryCacheMiss($regionName, QueryCacheKey $key)
     {
-        $this->cacheMissCountMap[$regionName]
-            = ($this->cacheMissCountMap[$regionName] ?? 0) + 1;
+        $this->cacheMissCountMap[$regionName] = isset($this->cacheMissCountMap[$regionName])
+            ? $this->cacheMissCountMap[$regionName] + 1
+            : 1;
     }
 
     /**
@@ -101,8 +109,9 @@ class StatisticsCacheLogger implements CacheLogger
      */
     public function queryCachePut($regionName, QueryCacheKey $key)
     {
-        $this->cachePutCountMap[$regionName]
-            = ($this->cachePutCountMap[$regionName] ?? 0) + 1;
+        $this->cachePutCountMap[$regionName] = isset($this->cachePutCountMap[$regionName])
+            ? $this->cachePutCountMap[$regionName] + 1
+            : 1;
     }
 
     /**

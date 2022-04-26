@@ -357,24 +357,13 @@ class DoctrineExtension extends AbstractDoctrineExtension
         }
 
         if (! empty($options['slaves']) && ! empty($options['replica']) && ! empty($options['shards'])) {
-            throw new InvalidArgumentException('Sharding and primary-replica connection cannot be used together');
-        }
-
-        foreach (['shards', 'replica', 'slaves'] as $connectionKey) {
-            foreach ($options[$connectionKey] as $name => $value) {
-                $driverOptions       = $value['driverOptions'] ?? [];
-                $parentDriverOptions = $options['driverOptions'] ?? [];
-                if ($driverOptions === [] && $parentDriverOptions === []) {
-                    continue;
-                }
-
-                $options[$connectionKey][$name]['driverOptions'] = $driverOptions + $parentDriverOptions;
-            }
+            throw new InvalidArgumentException('Sharding and master-slave connection cannot be used together');
         }
 
         if (! empty($options['slaves']) || ! empty($options['replica'])) {
             $nonRewrittenKeys = [
                 'driver' => true,
+                'driverOptions' => true,
                 'driverClass' => true,
                 'wrapperClass' => true,
                 'keepSlave' => true,
@@ -382,6 +371,7 @@ class DoctrineExtension extends AbstractDoctrineExtension
                 'shardChoser' => true,
                 'platform' => true,
                 'slaves' => true,
+                'master' => true,
                 'primary' => true,
                 'replica' => true,
                 'shards' => true,

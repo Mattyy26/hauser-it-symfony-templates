@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\ORM\Query\AST;
 
-use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-
 /**
  * LikeExpression ::= StringExpression ["NOT"] "LIKE" string ["ESCAPE" char]
  *
@@ -14,21 +12,21 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 class LikeExpression extends Node
 {
     /** @var bool */
-    public $not = false;
+    public $not;
 
-    /** @var Node|string */
+    /** @var Node */
     public $stringExpression;
 
-    /** @var InputParameter|FunctionNode|PathExpression|Literal */
+    /** @var InputParameter */
     public $stringPattern;
 
     /** @var Literal|null */
     public $escapeChar;
 
     /**
-     * @param Node|string                                        $stringExpression
-     * @param InputParameter|FunctionNode|PathExpression|Literal $stringPattern
-     * @param Literal|null                                       $escapeChar
+     * @param Node           $stringExpression
+     * @param InputParameter $stringPattern
+     * @param Literal|null   $escapeChar
      */
     public function __construct($stringExpression, $stringPattern, $escapeChar = null)
     {

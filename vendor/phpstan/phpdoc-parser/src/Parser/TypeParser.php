@@ -259,19 +259,15 @@ class TypeParser
 			$tokens->consumeTokenType(Lexer::TOKEN_IDENTIFIER);
 		}
 
-		$targetType = $this->parse($tokens);
+		$targetType = $this->parseAtomic($tokens);
 
-		$tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 		$tokens->consumeTokenType(Lexer::TOKEN_NULLABLE);
-		$tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 
-		$ifType = $this->parse($tokens);
+		$ifType = $this->parseAtomic($tokens);
 
-		$tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 		$tokens->consumeTokenType(Lexer::TOKEN_COLON);
-		$tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 
-		$elseType = $this->parse($tokens);
+		$elseType = $this->parseAtomic($tokens);
 
 		return new Ast\Type\ConditionalTypeForParameterNode($parameterName, $targetType, $ifType, $elseType, $negated);
 	}

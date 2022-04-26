@@ -262,20 +262,10 @@ class SchemaValidator
      */
     public function schemaInSyncWithMetadata()
     {
-        return count($this->getUpdateSchemaList()) === 0;
-    }
-
-    /**
-     * Returns the list of missing Database Schema updates.
-     *
-     * @return array<string>
-     */
-    public function getUpdateSchemaList(): array
-    {
         $schemaTool = new SchemaTool($this->em);
 
         $allMetadata = $this->em->getMetadataFactory()->getAllMetadata();
 
-        return $schemaTool->getUpdateSchemaSql($allMetadata, true);
+        return count($schemaTool->getUpdateSchemaSql($allMetadata, true)) === 0;
     }
 }

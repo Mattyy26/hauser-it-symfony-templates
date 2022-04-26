@@ -7,7 +7,6 @@ namespace Doctrine\ORM\Internal\Hydration;
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\ORM\Exception\MultipleSelectorsFoundException;
 
-use function array_column;
 use function count;
 
 /**
@@ -27,8 +26,12 @@ final class ScalarColumnHydrator extends AbstractHydrator
             throw MultipleSelectorsFoundException::create($this->resultSetMapping()->fieldMappings);
         }
 
-        $result = $this->statement()->fetchAllNumeric();
+        $result = [];
 
-        return array_column($result, 0);
+        while ($row = $this->statement()->fetchOne()) {
+            $result[] = $row;
+        }
+
+        return $result;
     }
 }

@@ -10,6 +10,11 @@ use function is_numeric;
 use function strlen;
 use function substr;
 
+/**
+ * Description of InputParameter.
+ *
+ * @link    www.doctrine-project.org
+ */
 class InputParameter extends Node
 {
     /** @var bool */

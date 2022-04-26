@@ -12,6 +12,7 @@
 namespace Symfony\Bundle\MakerBundle\Maker;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Common\Inflector\Inflector as LegacyInflector;
 use Doctrine\Inflector\InflectorFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +51,10 @@ final class MakeCrud extends AbstractMaker
     {
         $this->doctrineHelper = $doctrineHelper;
         $this->formTypeRenderer = $formTypeRenderer;
-        $this->inflector = InflectorFactory::create()->build();
+
+        if (class_exists(InflectorFactory::class)) {
+            $this->inflector = InflectorFactory::create()->build();
+        }
     }
 
     public static function getCommandName(): string
@@ -120,7 +124,7 @@ final class MakeCrud extends AbstractMaker
             $repositoryVars = [
                 'repository_full_class_name' => $repositoryClassDetails->getFullName(),
                 'repository_class_name' => $repositoryClassDetails->getShortName(),
-                'repository_var' => lcfirst($this->inflector->singularize($repositoryClassDetails->getShortName())),
+                'repository_var' => lcfirst($this->singularize($repositoryClassDetails->getShortName())),
             ];
         }
 
@@ -140,8 +144,8 @@ final class MakeCrud extends AbstractMaker
             ++$iter;
         } while (class_exists($formClassDetails->getFullName()));
 
-        $entityVarPlural = lcfirst($this->inflector->pluralize($entityClassDetails->getShortName()));
-        $entityVarSingular = lcfirst($this->inflector->singularize($entityClassDetails->getShortName()));
+        $entityVarPlural = lcfirst($this->pluralize($entityClassDetails->getShortName()));
+        $entityVarSingular = lcfirst($this->singularize($entityClassDetails->getShortName()));
 
         $entityTwigVarPlural = Str::asTwigVariable($entityVarPlural);
         $entityTwigVarSingular = Str::asTwigVariable($entityVarSingular);
@@ -268,5 +272,23 @@ final class MakeCrud extends AbstractMaker
             ParamConverter::class,
             'annotations'
         );
+    }
+
+    private function pluralize(string $word): string
+    {
+        if (null !== $this->inflector) {
+            return $this->inflector->pluralize($word);
+        }
+
+        return LegacyInflector::pluralize($word);
+    }
+
+    private function singularize(string $word): string
+    {
+        if (null !== $this->inflector) {
+            return $this->inflector->singularize($word);
+        }
+
+        return LegacyInflector::singularize($word);
     }
 }

@@ -11,7 +11,8 @@ use Doctrine\Persistence\Event\LoadClassMetadataEventArgs as BaseLoadClassMetada
 /**
  * Class that holds event arguments for a loadMetadata event.
  *
- * @extends BaseLoadClassMetadataEventArgs<ClassMetadata<object>, EntityManagerInterface>
+ * @method __construct(ClassMetadata $classMetadata, EntityManagerInterface $objectManager)
+ * @method ClassMetadata getClassMetadata()
  */
 class LoadClassMetadataEventArgs extends BaseLoadClassMetadataEventArgs
 {

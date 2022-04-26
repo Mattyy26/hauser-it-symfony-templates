@@ -26,4 +26,12 @@ class JoinAssociationPathExpression extends Node
         $this->identificationVariable = $identificationVariable;
         $this->associationField       = $associationField;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dispatch($sqlWalker)
+    {
+        return $sqlWalker->walkPathExpression($this);
+    }
 }

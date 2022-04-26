@@ -12,7 +12,6 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache as CacheDriver;
 use Doctrine\Common\Cache\Psr6\CacheAdapter;
 use Doctrine\Common\Cache\Psr6\DoctrineProvider;
-use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
 use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\Cache\CacheConfiguration;
@@ -24,7 +23,6 @@ use Doctrine\ORM\Cache\Exception\QueryCacheUsesNonPersistentCache;
 use Doctrine\ORM\Exception\InvalidEntityRepository;
 use Doctrine\ORM\Exception\NamedNativeQueryNotFound;
 use Doctrine\ORM\Exception\NamedQueryNotFound;
-use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ProxyClassesAlwaysRegenerating;
 use Doctrine\ORM\Exception\UnknownEntityNamespace;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
@@ -36,8 +34,6 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Mapping\EntityListenerResolver;
 use Doctrine\ORM\Mapping\NamingStrategy;
 use Doctrine\ORM\Mapping\QuoteStrategy;
-use Doctrine\ORM\Proxy\ProxyFactory;
-use Doctrine\ORM\Query\Filter\SQLFilter;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Repository\DefaultRepositoryFactory;
 use Doctrine\ORM\Repository\RepositoryFactory;
@@ -45,9 +41,9 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\ObjectRepository;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
+use ReflectionClass;
 
 use function class_exists;
-use function is_a;
 use function method_exists;
 use function sprintf;
 use function strtolower;
@@ -58,8 +54,6 @@ use function trim;
  * It combines all configuration options from DBAL & ORM.
  *
  * Internal note: When adding a new configuration option just write a getter/setter pair.
- *
- * @psalm-import-type AutogenerateMode from ProxyFactory
  */
 class Configuration extends \Doctrine\DBAL\Configuration
 {
@@ -81,6 +75,10 @@ class Configuration extends \Doctrine\DBAL\Configuration
     /**
      * Gets the directory where Doctrine generates any necessary proxy class files.
      *
+     * @deprecated 2.7 We're switch to `ocramius/proxy-manager` and this method isn't applicable any longer
+     *
+     * @see https://github.com/Ocramius/ProxyManager
+     *
      * @return string|null
      */
     public function getProxyDir()
@@ -91,8 +89,11 @@ class Configuration extends \Doctrine\DBAL\Configuration
     /**
      * Gets the strategy for automatically generating proxy classes.
      *
+     * @deprecated 2.7 We're switch to `ocramius/proxy-manager` and this method isn't applicable any longer
+     *
+     * @see https://github.com/Ocramius/ProxyManager
+     *
      * @return int Possible values are constants of Doctrine\Common\Proxy\AbstractProxyFactory.
-     * @psalm-return AutogenerateMode
      */
     public function getAutoGenerateProxyClasses()
     {
@@ -114,6 +115,10 @@ class Configuration extends \Doctrine\DBAL\Configuration
 
     /**
      * Gets the namespace where proxy classes reside.
+     *
+     * @deprecated 2.7 We're switch to `ocramius/proxy-manager` and this method isn't applicable any longer
+     *
+     * @see https://github.com/Ocramius/ProxyManager
      *
      * @return string|null
      */
@@ -151,8 +156,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
      * Adds a new default annotation driver with a correctly configured annotation reader. If $useSimpleAnnotationReader
      * is true, the notation `@Entity` will work, otherwise, the notation `@ORM\Entity` will be supported.
      *
-     * @deprecated Use {@see ORMSetup::createDefaultAnnotationDriver()} instead.
-     *
      * @param string|string[] $paths
      * @param bool            $useSimpleAnnotationReader
      * @psalm-param string|list<string> $paths
@@ -161,14 +164,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
      */
     public function newDefaultAnnotationDriver($paths = [], $useSimpleAnnotationReader = true)
     {
-        Deprecation::trigger(
-            'doctrine/orm',
-            'https://github.com/doctrine/orm/pull/9443',
-            '%s is deprecated, call %s::createDefaultAnnotationDriver() instead.',
-            __METHOD__,
-            ORMSetup::class
-        );
-
         if (! class_exists(AnnotationReader::class)) {
             throw new LogicException(sprintf(
                 'The annotation metadata driver cannot be enabled because the "doctrine/annotations" library'
@@ -198,8 +193,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
     }
 
     /**
-     * @deprecated No replacement planned.
-     *
      * Adds a namespace under a certain alias.
      *
      * @param string $alias
@@ -209,21 +202,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
      */
     public function addEntityNamespace($alias, $namespace)
     {
-        if (class_exists(PersistentObject::class)) {
-            Deprecation::trigger(
-                'doctrine/orm',
-                'https://github.com/doctrine/orm/issues/8818',
-                'Short namespace aliases such as "%s" are deprecated and will be removed in Doctrine ORM 3.0.',
-                $alias
-            );
-        } else {
-            NotSupported::createForPersistence3(sprintf(
-                'Using short namespace alias "%s" by calling %s',
-                $alias,
-                __METHOD__
-            ));
-        }
-
         $this->_attributes['entityNamespaces'][$alias] = $namespace;
     }
 
@@ -570,7 +548,7 @@ class Configuration extends \Doctrine\DBAL\Configuration
             throw QueryCacheUsesNonPersistentCache::fromDriver($queryCacheImpl);
         }
 
-        if ($this->getAutoGenerateProxyClasses() !== AbstractProxyFactory::AUTOGENERATE_NEVER) {
+        if ($this->getAutoGenerateProxyClasses()) {
             throw ProxyClassesAlwaysRegenerating::create();
         }
 
@@ -816,7 +794,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
      *
      * @param string $name      The name of the filter.
      * @param string $className The class name of the filter.
-     * @psalm-param class-string<SQLFilter> $className
      *
      * @return void
      */
@@ -832,7 +809,7 @@ class Configuration extends \Doctrine\DBAL\Configuration
      *
      * @return string|null The class name of the filter, or null if it is not
      *  defined.
-     * @psalm-return class-string<SQLFilter>|null
+     * @psalm-return ?class-string
      */
     public function getFilterClassName($name)
     {
@@ -843,7 +820,6 @@ class Configuration extends \Doctrine\DBAL\Configuration
      * Sets default repository class.
      *
      * @param string $className
-     * @psalm-param class-string<EntityRepository> $className
      *
      * @return void
      *
@@ -851,18 +827,10 @@ class Configuration extends \Doctrine\DBAL\Configuration
      */
     public function setDefaultRepositoryClassName($className)
     {
-        if (! class_exists($className) || ! is_a($className, ObjectRepository::class, true)) {
-            throw InvalidEntityRepository::fromClassName($className);
-        }
+        $reflectionClass = new ReflectionClass($className);
 
-        if (! is_a($className, EntityRepository::class, true)) {
-            Deprecation::trigger(
-                'doctrine/orm',
-                'https://github.com/doctrine/orm/pull/9533',
-                'Configuring %s as default repository class is deprecated because it does not extend %s.',
-                $className,
-                EntityRepository::class
-            );
+        if (! $reflectionClass->implementsInterface(ObjectRepository::class)) {
+            throw InvalidEntityRepository::fromClassName($className);
         }
 
         $this->_attributes['defaultRepositoryClassName'] = $className;
@@ -872,7 +840,7 @@ class Configuration extends \Doctrine\DBAL\Configuration
      * Get default repository class.
      *
      * @return string
-     * @psalm-return class-string<EntityRepository>
+     * @psalm-return class-string
      */
     public function getDefaultRepositoryClassName()
     {

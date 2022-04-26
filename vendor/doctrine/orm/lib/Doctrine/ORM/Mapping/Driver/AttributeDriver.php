@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\Mapping\Builder\EntityListenerBuilder;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Mapping\Driver\ColocatedMappingDriver;
+use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
 use LogicException;
 use ReflectionClass;
 use ReflectionMethod;
@@ -26,25 +25,14 @@ use function sprintf;
 
 use const PHP_VERSION_ID;
 
-class AttributeDriver extends CompatibilityAnnotationDriver
+class AttributeDriver extends AnnotationDriver
 {
-    use ColocatedMappingDriver;
-
     /** @var array<string,int> */
     // @phpcs:ignore
     protected $entityAnnotationClasses = [
         Mapping\Entity::class => 1,
         Mapping\MappedSuperclass::class => 2,
     ];
-
-    /**
-     * The annotation reader.
-     *
-     * @internal this property will be private in 3.0
-     *
-     * @var AttributeReader
-     */
-    protected $reader;
 
     /**
      * @param array<string> $paths
@@ -58,27 +46,7 @@ class AttributeDriver extends CompatibilityAnnotationDriver
             ));
         }
 
-        $this->reader = new AttributeReader();
-        $this->addPaths($paths);
-    }
-
-    /**
-     * Retrieve the current annotation reader
-     *
-     * @deprecated no replacement planned.
-     *
-     * @return AttributeReader
-     */
-    public function getReader()
-    {
-        Deprecation::trigger(
-            'doctrine/orm',
-            'https://github.com/doctrine/orm/pull/9587',
-            '%s is deprecated with no replacement',
-            __METHOD__
-        );
-
-        return $this->reader;
+        parent::__construct(new AttributeReader(), $paths);
     }
 
     /**
@@ -303,7 +271,7 @@ class AttributeDriver extends CompatibilityAnnotationDriver
             // Check for JoinColumn/JoinColumns annotations
             $joinColumns = [];
 
-            $joinColumnAttributes = $this->reader->getPropertyAnnotationCollection($property, Mapping\JoinColumn::class);
+            $joinColumnAttributes = $this->reader->getPropertyAnnotation($property, Mapping\JoinColumn::class);
 
             foreach ($joinColumnAttributes as $joinColumnAttribute) {
                 $joinColumns[] = $this->joinColumnToArray($joinColumnAttribute);
@@ -408,11 +376,11 @@ class AttributeDriver extends CompatibilityAnnotationDriver
                     ];
                 }
 
-                foreach ($this->reader->getPropertyAnnotationCollection($property, Mapping\JoinColumn::class) as $joinColumn) {
+                foreach ($this->reader->getPropertyAnnotation($property, Mapping\JoinColumn::class) as $joinColumn) {
                     $joinTable['joinColumns'][] = $this->joinColumnToArray($joinColumn);
                 }
 
-                foreach ($this->reader->getPropertyAnnotationCollection($property, Mapping\InverseJoinColumn::class) as $joinColumn) {
+                foreach ($this->reader->getPropertyAnnotation($property, Mapping\InverseJoinColumn::class) as $joinColumn) {
                     $joinTable['inverseJoinColumns'][] = $this->joinColumnToArray($joinColumn);
                 }
 

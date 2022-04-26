@@ -19,10 +19,7 @@ class Join
     public const ON   = 'ON';
     public const WITH = 'WITH';
 
-    /**
-     * @var string
-     * @psalm-var self::INNER_JOIN|self::LEFT_JOIN
-     */
+    /** @var string */
     protected $joinType;
 
     /** @var string */
@@ -31,10 +28,7 @@ class Join
     /** @var string|null */
     protected $alias;
 
-    /**
-     * @var string|null
-     * @psalm-var self::ON|self::WITH|null
-     */
+    /** @var string|null */
     protected $conditionType;
 
     /** @var string|Comparison|Composite|null */
@@ -50,8 +44,6 @@ class Join
      * @param string|null                      $conditionType The condition type constant. Either ON or WITH.
      * @param string|Comparison|Composite|null $condition     The condition for the join.
      * @param string|null                      $indexBy       The index for the join.
-     * @psalm-param self::INNER_JOIN|self::LEFT_JOIN $joinType
-     * @psalm-param self::ON|self::WITH|null $conditionType
      */
     public function __construct($joinType, $join, $alias = null, $conditionType = null, $condition = null, $indexBy = null)
     {
@@ -65,7 +57,6 @@ class Join
 
     /**
      * @return string
-     * @psalm-return self::INNER_JOIN|self::LEFT_JOIN
      */
     public function getJoinType()
     {
@@ -90,7 +81,6 @@ class Join
 
     /**
      * @return string|null
-     * @psalm-return self::ON|self::WITH|null
      */
     public function getConditionType()
     {

@@ -16,11 +16,9 @@ interface RepositoryFactory
      * Gets the repository for an entity class.
      *
      * @param EntityManagerInterface $entityManager The EntityManager instance.
-     * @param class-string<T>        $entityName    The name of the entity.
+     * @param string                 $entityName    The name of the entity.
      *
-     * @return ObjectRepository<T> This type will change to {@see EntityRepository} in 3.0.
-     *
-     * @template T of object
+     * @return ObjectRepository
      */
     public function getRepository(EntityManagerInterface $entityManager, $entityName);
 }

@@ -384,8 +384,7 @@ class DefaultQueryCache implements QueryCache
     /**
      * @param object $entity
      *
-     * @return mixed[]|object|null
-     * @psalm-return list<mixed>|object|null
+     * @return array<object>|object
      */
     private function getAssociationValue(
         ResultSetMapping $rsm,
@@ -412,11 +411,10 @@ class DefaultQueryCache implements QueryCache
     }
 
     /**
-     * @param mixed $value
-     * @psalm-param array<array-key, array{field: string, class: string}> $path
+     * @param mixed        $value
+     * @param array<mixed> $path
      *
-     * @return mixed[]|object|null
-     * @psalm-return list<mixed>|object|null
+     * @return mixed
      */
     private function getAssociationPathValue($value, array $path)
     {

@@ -7,7 +7,7 @@ namespace Doctrine\ORM\Mapping;
 use Doctrine\Deprecations\Deprecation;
 
 use function preg_replace;
-use function str_contains;
+use function strpos;
 use function strrpos;
 use function strtolower;
 use function strtoupper;
@@ -79,7 +79,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
      */
     public function classToTableName($className)
     {
-        if (str_contains($className, '\\')) {
+        if (strpos($className, '\\') !== false) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
 

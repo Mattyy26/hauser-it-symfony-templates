@@ -10,7 +10,6 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
 
-use function assert;
 use function reset;
 use function sprintf;
 
@@ -24,7 +23,7 @@ class IdentityFunction extends FunctionNode
     /** @var PathExpression */
     public $pathExpression;
 
-    /** @var string|null */
+    /** @var string */
     public $fieldMapping;
 
     /**
@@ -32,14 +31,14 @@ class IdentityFunction extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        assert($this->pathExpression->field !== null);
-        $entityManager = $sqlWalker->getEntityManager();
-        $platform      = $entityManager->getConnection()->getDatabasePlatform();
-        $quoteStrategy = $entityManager->getConfiguration()->getQuoteStrategy();
+        $platform      = $sqlWalker->getEntityManager()->getConnection()->getDatabasePlatform();
+        $quoteStrategy = $sqlWalker->getEntityManager()->getConfiguration()->getQuoteStrategy();
         $dqlAlias      = $this->pathExpression->identificationVariable;
         $assocField    = $this->pathExpression->field;
-        $assoc         = $sqlWalker->getMetadataForDqlAlias($dqlAlias)->associationMappings[$assocField];
-        $targetEntity  = $entityManager->getClassMetadata($assoc['targetEntity']);
+        $qComp         = $sqlWalker->getQueryComponent($dqlAlias);
+        $class         = $qComp['metadata'];
+        $assoc         = $class->associationMappings[$assocField];
+        $targetEntity  = $sqlWalker->getEntityManager()->getClassMetadata($assoc['targetEntity']);
         $joinColumn    = reset($assoc['joinColumns']);
 
         if ($this->fieldMapping !== null) {
@@ -64,7 +63,7 @@ class IdentityFunction extends FunctionNode
         }
 
         // The table with the relation may be a subclass, so get the table name from the association definition
-        $tableName = $entityManager->getClassMetadata($assoc['sourceEntity'])->getTableName();
+        $tableName = $sqlWalker->getEntityManager()->getClassMetadata($assoc['sourceEntity'])->getTableName();
 
         $tableAlias = $sqlWalker->getSQLTableAlias($tableName, $dqlAlias);
         $columnName = $quoteStrategy->getJoinColumnName($joinColumn, $targetEntity, $platform);
