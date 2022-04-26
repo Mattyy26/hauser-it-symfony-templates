@@ -55,6 +55,11 @@ DATABASE_URL="mysql://pokus:pokus@mysqldb:3306/pokus?serverVersion=mariadb-10.7.
 ## Základní příkazy pro doctrine
 Příkazy zadáváme v docker containeru
 
+#### vypiše seznam příkazů
+```sh
+php bin/console list make
+```
+
 #### vytvoreni entity
 ```sh
 php bin/console make:entity
@@ -120,3 +125,15 @@ doctrine:migrations:version [verze] Ručně přidat a odstranit verze migrace z 
 doctrine:migrations:sync-metadata-storage [sync-metadata-storage] Zajišťuje, že úložiště metadat je v nejnovější verzi.
 doctrine:migrations:list [list-migrations] Zobrazí seznam všech dostupných migrací a jejich stav.
 ```
+
+## Základní příkazy pro tvorbu formulářu
+Příkazy zadáváme v docker containeru
+
+#### 
+```sh
+php bin/console make:form
+```
+V prvním kroku zadáme název formuláře a ve druhém kroku název entity.
+
+
+

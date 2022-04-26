@@ -1,6 +1,15 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
 
+    form_themes: ['bootstrap_5_layout.html.twig']
+
+    globals:
+#        # the value is the service's id
+#        uuid: '@App\Generator\UuidGenerator'
+        layout: 'cheatsheet'
+
 when@test:
     twig:
         strict_variables: true
+
+
