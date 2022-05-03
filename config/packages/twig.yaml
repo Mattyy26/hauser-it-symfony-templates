@@ -3,6 +3,7 @@ twig:
 
     form_themes: ['bootstrap_5_layout.html.twig']
 
+
     globals:
 #        # the value is the service's id
 #        uuid: '@App\Generator\UuidGenerator'

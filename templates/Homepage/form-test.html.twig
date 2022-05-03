@@ -2,13 +2,13 @@
 
 {% block body %}
     <h1>Form test</h1>
-
-    {{ form(form) }}
-
-
-
-    <a href="{{ path('homepage_default') }}">Homepage default</a>
-    <a href="{{ path('homepage_detail') }}">Homepage detail</a>
+    <div class="row">
+        <div class="col-5">
+            {{ form(form) }}
+            <a href="{{ path('homepage_detail') }}">Homepage detail</a>
+            <a href="{{ path('homepage_form_test') }}">Homepage form test</a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}{% endblock %}

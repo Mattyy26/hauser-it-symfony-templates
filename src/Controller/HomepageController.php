@@ -10,7 +10,9 @@ use App\Repository\AddressRepository;
 use App\Repository\CitiesRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,7 +32,7 @@ class HomepageController extends BaseController
         $mailtofrom = $this->getParameter('mailtofrom');
 
         // preda data do sablony
-        return $this->render("Homepage/default.html.twig", array('id' => 5));
+        return $this->render("Homepage/default.html.twig", array('id' => 5, 'title' => 'Homepage:default', 'text' => 'tady text homepage'));
     }
 
 
@@ -100,25 +102,46 @@ class HomepageController extends BaseController
 
 
         $data = array('houska', 'rohlik', 'chleba');
-
-        return $this->render("Homepage/detail.html.twig", array('id' => 5, 'data' => $data));
+        return $this->render("Homepage/detail.html.twig", array('id' => 5, 'data' => $data, 'title' => 'Homepage:detail', 'text' => 'tady text homepage detail'));
     }
 
-    /**
-     * @Route("/form-test", name="homepage_form_test")
+
+
+     /**
+     * @Route("/form-test/{id}", defaults={"id" = null}, name="homepage_form_test")
+     * @param Request $request
+     * @param ManagerRegistry $doctrine
+     * @return Response
      */
-    public function formTest(ManagerRegistry $doctrine): Response
+    public function formTest(string $id = null, Request $request, ManagerRegistry $doctrine): Response
     {
 
         $Eaddress = new Address();
 
         $form = $this->createForm(AddressFormType::class, $Eaddress,
-        [
-        'action' => $this->generateUrl('homepage_form_test'),
-        'method' => 'POST'
-        ]);
+            [
+                'action' => $this->generateUrl('homepage_form_test'),
+                'method' => 'POST'
+            ]);
 
-        return $this->render("Homepage/form-test.html.twig", ["form" => $form->createView()]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ziskani dat z formulare
+            $data = $form->getData();
+            // ulozeni do db
+            $em = $doctrine->getManager();
+            $em->persist($data);
+            $em->flush();
+
+            $this->addFlash("SUCCESS",'Data ulozena');
+            $this->redirect('homepage_default');
+        }
+
+        return $this->render("Homepage/form-test.html.twig", [
+            "form" => $form->createView(),
+            'title' => 'Homepage:form_test',
+            'text' => 'tady text homepage form test']);
     }
 
 }

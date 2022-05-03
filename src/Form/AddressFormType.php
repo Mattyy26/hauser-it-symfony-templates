@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Address;
 use App\Entity\Cities;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-class AddressFormType extends CitiesFormType
+class AddressFormType extends AbstractType
 {
 
     /**
@@ -24,19 +25,21 @@ class AddressFormType extends CitiesFormType
     {
 
         $builder
-            ->add('street', TextareaType::class, ['required' => true])
+            ->add('street', TextareaType::class, ['required' => true,
+                'row_attr' => [
+                    'class' => 'form-group is-invalid'],
 
+                'attr' => ['maxlength' => 4, 'novalidate' => 'novalidate']])
             ->add('zip', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Name',
+                    'placeholder' => 'Name'
                 ],
                 'row_attr' => [
-                    'class' => 'input-group',
+                    'class' => 'form-group is-invalid',
                 ],
                 'constraints' => new Length(['min' => 3])],
             )
-
             ->add('cities', EntityType::class, [
                 'placeholder' => '--- Vyber mesto ---',
                 'class' => Cities::class,
@@ -44,14 +47,16 @@ class AddressFormType extends CitiesFormType
                 'required' => true,
                 'label' => 'Mesto',
                 'row_attr' => [
-                    'class' => 'input-group',
+                    'class' => 'form-group is-invalid',
                 ],
                 'attr' => ['maxlength' => 4]])
 
-            ->add('save', SubmitType::class)
 
-            ;//->setDataMapper($this);
+            ->add('save', SubmitType::class);//->setDataMapper($this);
+
+
     }
+
 
     /**
      * @param OptionsResolver $resolver
@@ -67,7 +72,7 @@ class AddressFormType extends CitiesFormType
             'csrf_field_name' => '_token',
             // an arbitrary string used to generate the value of the token
             // using a different string for each form improves its security
-            'csrf_token_id'   => 'task_item',
+            'csrf_token_id' => 'task_item',
         ]);
     }
 
