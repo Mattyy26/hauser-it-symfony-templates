@@ -21,15 +21,11 @@ class HomepageController extends BaseController
 {
 
     /**
-     * @param ManagerRegistry $doctrine
      * @return Response
      * @Route("/", name="homepage_default")
      */
-    public function default(ManagerRegistry $doctrine): Response
+    public function default(): Response
     {
-
-        // ziska parametry z service.yaml
-        $mailtofrom = $this->getParameter('mailtofrom');
 
         // preda data do sablony
         return $this->render("Homepage/default.html.twig");
