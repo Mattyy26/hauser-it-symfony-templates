@@ -2,20 +2,9 @@
 <html lang="cs">
 <head>
     <meta charset="utf-8">
-    <title>Bootswatch: Spacelab</title>
+    <title>Symfony template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url('homepage_default') }}layouts/{{ layout }}/css/bootstrap.css">
-    <link rel="stylesheet" href="{{ url('homepage_default') }}layouts/{{ layout }}/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ url('homepage_default') }}layouts/{{ layout }}/css/prism-okaidia.css">
-    <link rel="stylesheet" href="{{ url('homepage_default') }}layouts/{{ layout }}/css/custom.min.css">
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-{#    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23019901-1"></script>#}
     <script>
-        // window.dataLayer = window.dataLayer || [];
-        // function gtag(){dataLayer.push(arguments);}
-        // gtag('js', new Date());
-        //
-        // gtag('config', 'UA-23019901-1');
     </script>
 </head>
 <body>
@@ -23,13 +12,6 @@
     <div class="bs-docs-section clearfix">
         {% block body %}
         {% endblock %}
-    <div class="bs-docs-section">
-        {% include 'footer.html.twig' %}
-</div>
-
-<script src="{{ url('homepage_default') }}layouts/{{ layout }}/js/jquery.min.js"></script>
-<script src="{{ url('homepage_default') }}layouts/{{ layout }}/js/bootstrap.bundle.min.js"></script>
-<script src="{{ url('homepage_default') }}layouts/{{ layout }}/js/prism.js" data-manual></script>
-<script src="{{ url('homepage_default') }}layouts/{{ layout }}/js/custom.js"></script>
+    </div>
 </body>
 </html>
