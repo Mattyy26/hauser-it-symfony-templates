@@ -1,4 +1,4 @@
-# Symfony template
+# IT Symfony template
 
 Tento template je vhodné si naklonovat rovnou už v GitLabu, protože
 projekt už bude mít pojmenování podle vašeho přání.

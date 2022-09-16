@@ -1,91 +1,44 @@
-FROM php:8.1-apache AS symfony-apache-php81
+FROM php:8.0-apache AS symfony_web
+
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y \
+        cron \
+        libpng-dev \
+        zlib1g-dev \
+        libpng-dev \
+        mc \
+        lynx \
+        libjpeg-dev \
+        libfreetype6-dev \
+        iproute2 \
+        git \
+        zip \
+        unzip \
+        iputils-ping \
+        net-tools \
+        telnet \
+    && apt-get clean
+
+    #COPY ./elasticsearch.yml /usr/share/elasticsearch/config
 
 RUN a2enmod rewrite
 
-RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
+#RUN groupadd -g 1000 elasticsearch && useradd -u 1000 -g 1000 -G 0 -m -d /usr/share/elasticsearch elasticsearch \
+#		&& chmod 0775 /usr/share/elasticsearch && chgrp 0 /usr/share/elasticsearch
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		libfreetype6-dev \
-		libxml2-dev \
-		libjpeg62-turbo-dev \
-		libpng-dev \
-		zlib1g-dev \
-		libzip-dev \
-		symfony-cli \
-		libz-dev \
-		libpq-dev  \
-		libsqlite3-dev  \
-		libicu-dev \
-		zip \
-		iputils-ping \
-        net-tools \
-        telnet \
-        mc \
-        git \
-		libmcrypt-dev \
-		libvpx-dev \
-		libjpeg-dev \
-		libpng-dev \
-		bzip2 \
-		wget \
-		libexpat1-dev \
-		libbz2-dev \
-		libgmp3-dev \
-		libldap2-dev \
-		libsnmp-dev \
-		libpcre3-dev \
-		libtidy-dev \
-		libaspell-dev \
-		tar \
-		less \
-		nano \
-		libcurl4-gnutls-dev \
-		unzip \
-		libonig-dev \
-		libldap2-dev \
-		libxslt-dev \
-		libwebp-dev \
-		libc-client-dev \
-		libkrb5-dev \
-		libpspell-dev \
-    && phpModules=" \
-                bcmath \
-                bz2 \
-                calendar \
-                exif \
-                gd \
-                gettext \
-                gmp \
-                xml \
-                imap \
-                intl \
-                ldap \
-                mysqli \
-                opcache \
-                pcntl \
-                pdo_mysql \
-                pspell \
-                shmop \
-                snmp \
-                soap \
-                sockets \
-                sysvmsg \
-                sysvsem \
-                sysvshm \
-                tidy \
-                curl \
-                xsl \
-                zip \
-            " \
-	&& docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-	&& docker-php-ext-configure ldap \
-	&& docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-	&& docker-php-ext-install -j$(nproc) $phpModules \
-	&& pecl install xdebug \
-	&& docker-php-ext-enable xdebug \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# install APT transport and wget
+#RUN apt-get update && \
+#  apt-get install -y --no-install-recommends \
+#  apt-transport-https \
+#  wget -y
+#
+#RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-arm64.deb
+
+RUN docker-php-ext-install mysqli
+
+#COPY ./docker/php.ini /etc/php/php.ini
+#COPY ./docker/add-host-domain.sh /add-host-domain.sh
+#COPY ./docker/run.sh /run.sh
 
 RUN docker-php-ext-install mysqli
 
@@ -95,18 +48,21 @@ RUN docker-php-ext-enable gd
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
 
-RUN docker-php-ext-install ctype
+RUN pecl install mailparse
+RUN docker-php-ext-enable mailparse
 
-RUN docker-php-ext-install iconv
-
-RUN curl -sS https://getcomposer.org/installer | php -- \
---install-dir=/usr/bin --filename=composer
+#RUN pecl install xdebug
+#RUN docker-php-ext-enable xdebug
 
 RUN rm -rf /etc/apache2/sites-enabled/*
 RUN rm -rf /etc/apache2/sites-available/*
 RUN echo "" > /etc/apache2/ports.conf
 RUN printf '\n\nServerName control.local\n\n' >> /etc/apache2/apache2.conf
 RUN rm -rf /var/www/html
+
+RUN mkdir /var/www/html/vendor
+COPY ./vendor /var/www/html/vendor
+
 
 COPY ./php.ini /etc/php/php.ini
 

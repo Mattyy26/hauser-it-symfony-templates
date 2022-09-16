@@ -1,26 +1,36 @@
 version: '3.7'
 
+volumes:
+  web_data:
+    name: symfony_vendor
+
 services:
-  symfony-apache-php81:
-    image: symfony-apache-php81:dev
-    container_name: symfony-apache-php81
+  symfony_web:
+    image: symfony_web
+    container_name: symfony_web
+    hostname: "symfony_web.ssemi.cz"
     build:
       context: ./docker
       dockerfile: ./Dockerfile.dev
-    hostname: 'symfony-template.ssemi.cz'
+    depends_on:
+      - symfony_mysql
+
     ports:
-      - "82:82" # HOST_PORT:CONTAINER_PORT
+      - "83:80" # HOST_PORT:CONTAINER_PORT
     #    network_mode: "host" # sdileni localhost s hostem, pozor na konflikt portu, viz. apache.ports.conf a apache.vhost.conf, nefunguje na ios
     volumes:
-      - .:/var/www
+      - web_data:/var/www/html/vendor
+      - ./web:/var/www/html
       - ./docker/php.ini:/usr/local/etc/php/php.ini
       - ./log:/var/log/nette:rw
       - ./docker/apache.ports.conf:/etc/apache2/ports.conf
       - ./docker/apache.vhost.conf:/etc/apache2/sites-enabled/vhost.conf
-  mysqldb:
+  symfony_mysql:
     image: mariadb:latest
+    container_name: symfony_mysql
+    hostname: "symfony_mysql.ssemi.cz"
     ports:
-      - 3307:3306
+      - 3308:3306
     environment:
       MYSQL_ROOT_PASSWORD: pokus
       MYSQL_DATABASE: pokus
