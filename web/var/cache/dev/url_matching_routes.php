@@ -13,7 +13,10 @@ return [
         '/_profiler/search_bar' => [[['_route' => '_profiler_search_bar', '_controller' => 'web_profiler.controller.profiler::searchBarAction'], null, null, null, false, false, null]],
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
-        '/' => [[['_route' => 'homepage_default', '_controller' => 'App\\Controller\\HomepageController::default'], null, null, null, false, false, null]],
+        '/' => [[['_route' => 'homepage_default', '_controller' => 'App\\Controller\\BartaController::default'], null, null, null, false, false, null]],
+        '/add' => [[['_route' => 'homepage_add', '_controller' => 'App\\Controller\\BartaController::add'], null, null, null, false, false, null]],
+        '/edit' => [[['_route' => 'homepage_edit', '_controller' => 'App\\Controller\\BartaController::edit'], null, null, null, false, false, null]],
+        '/spacelab' => [[['_route' => 'homepage_detail', '_controller' => 'App\\Controller\\BartaController::spacelab'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

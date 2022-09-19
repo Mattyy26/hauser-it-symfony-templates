@@ -7,7 +7,7 @@ twig:
     globals:
 #        # the value is the service's id
 #        uuid: '@App\Generator\UuidGenerator'
-        layout: 'spacelab'
+        layout: 'ollie'
 
 when@test:
     twig:
