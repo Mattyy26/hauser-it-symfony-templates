@@ -20,16 +20,5 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomepageController extends BaseController
 {
 
-    /**
-     * @return Response
-     * @Route("/", name="homepage_default")
-     */
-    public function default(): Response
-    {
-
-        // preda data do sablony
-        return $this->render("Homepage/default.html.twig");
-    }
-
 
 }
