@@ -1,0 +1,23 @@
+{% block header %}
+<header class="fade-in">
+    <div class="navigation-bar flex middle-xs">
+        <img src="{{ url("homepage_default") }}layouts/{{ layout }}/img/logo.svg" class="logo">
+        <nav class="end-xs">
+            <ul>
+                <li><a href="#about-us">About us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="hero flex middle-xs" style="background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)), url('{{ url("homepage_default") }}layouts/{{ layout }}/img/hero-image.jpg');
+            }">
+        <div class="hero-text ">
+            <h1>BeBlack</h1>
+            <p>Short for beautiful black. A creative OnePager free to use.</p>
+        </div>
+    </div>
+</header>
+{% endblock %}
