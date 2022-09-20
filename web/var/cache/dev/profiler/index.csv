@@ -24,3 +24,9 @@ e113c1,172.20.0.1,GET,http://localhost:83/,1663570042,,500
 fa4366,172.21.0.1,GET,http://localhost:83/,1663570766,,500
 0b27a7,172.21.0.1,GET,http://localhost:83/,1663570911,,200
 9490a1,172.21.0.1,GET,http://localhost:83/,1663570951,,200
+f37a4b,172.20.0.1,GET,http://localhost:83/,1663668251,,404
+5edc72,172.20.0.1,GET,http://localhost:83/favicon.ico,1663668253,68e73b,404
+68e73b,172.20.0.1,GET,http://localhost:83/favicon.ico,1663668253,,404
+f21c2a,172.21.0.1,GET,http://localhost:83/,1663668618,,200
+45e100,172.21.0.1,GET,http://localhost:83/,1663668618,,200
+8eca4d,172.21.0.1,GET,http://localhost:83/,1663668657,,200
