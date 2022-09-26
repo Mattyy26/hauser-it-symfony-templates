@@ -17,7 +17,9 @@ return [
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'homepage_default' => [[], ['_controller' => 'App\\Controller\\BartaController::default'], [], [['text', '/']], [], [], []],
     'homepage_add' => [[], ['_controller' => 'App\\Controller\\BartaController::add'], [], [['text', '/add']], [], [], []],
-    'homepage_edit' => [[], ['_controller' => 'App\\Controller\\BartaController::edit'], [], [['text', '/edit']], [], [], []],
-    'homepage_detail' => [[], ['_controller' => 'App\\Controller\\BartaController::spacelab'], [], [['text', '/spacelab']], [], [], []],
-    'homepage_new' => [[], ['_controller' => 'App\\Controller\\BartaController::new'], [], [['text', '/new']], [], [], []],
+    'xbartamartin_new' => [[], ['_controller' => 'App\\Controller\\UserController::new'], [], [['text', '/xbartamartin/new']], [], [], []],
+    'homepage_delete' => [[], ['_controller' => 'App\\Controller\\UserController::delete'], [], [['text', '/xbartamartin/delete']], [], [], []],
+    'homepage_edit' => [[], ['_controller' => 'App\\Controller\\UserController::edit'], [], [['text', '/xbartamartin/edit']], [], [], []],
+    'homepage_detail' => [[], ['_controller' => 'App\\Controller\\UserController::detail'], [], [['text', '/xbartamartin/detail']], [], [], []],
+    'xbartamartin_default' => [[], ['_controller' => 'App\\Controller\\UserController::default'], [], [['text', '/xbartamartin']], [], [], []],
 ];

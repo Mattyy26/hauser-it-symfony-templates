@@ -15,9 +15,11 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'homepage_default', '_controller' => 'App\\Controller\\BartaController::default'], null, null, null, false, false, null]],
         '/add' => [[['_route' => 'homepage_add', '_controller' => 'App\\Controller\\BartaController::add'], null, null, null, false, false, null]],
-        '/edit' => [[['_route' => 'homepage_edit', '_controller' => 'App\\Controller\\BartaController::edit'], null, null, null, false, false, null]],
-        '/spacelab' => [[['_route' => 'homepage_detail', '_controller' => 'App\\Controller\\BartaController::spacelab'], null, null, null, false, false, null]],
-        '/new' => [[['_route' => 'homepage_new', '_controller' => 'App\\Controller\\BartaController::new'], null, null, null, false, false, null]],
+        '/xbartamartin/new' => [[['_route' => 'xbartamartin_new', '_controller' => 'App\\Controller\\UserController::new'], null, null, null, false, false, null]],
+        '/xbartamartin/delete' => [[['_route' => 'homepage_delete', '_controller' => 'App\\Controller\\UserController::delete'], null, null, null, false, false, null]],
+        '/xbartamartin/edit' => [[['_route' => 'homepage_edit', '_controller' => 'App\\Controller\\UserController::edit'], null, null, null, false, false, null]],
+        '/xbartamartin/detail' => [[['_route' => 'homepage_detail', '_controller' => 'App\\Controller\\UserController::detail'], null, null, null, false, false, null]],
+        '/xbartamartin' => [[['_route' => 'xbartamartin_default', '_controller' => 'App\\Controller\\UserController::default'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
