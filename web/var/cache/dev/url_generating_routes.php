@@ -19,4 +19,5 @@ return [
     'homepage_add' => [[], ['_controller' => 'App\\Controller\\BartaController::add'], [], [['text', '/add']], [], [], []],
     'homepage_edit' => [[], ['_controller' => 'App\\Controller\\BartaController::edit'], [], [['text', '/edit']], [], [], []],
     'homepage_detail' => [[], ['_controller' => 'App\\Controller\\BartaController::spacelab'], [], [['text', '/spacelab']], [], [], []],
+    'homepage_new' => [[], ['_controller' => 'App\\Controller\\BartaController::new'], [], [['text', '/new']], [], [], []],
 ];

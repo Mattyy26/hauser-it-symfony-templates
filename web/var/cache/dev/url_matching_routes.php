@@ -17,6 +17,7 @@ return [
         '/add' => [[['_route' => 'homepage_add', '_controller' => 'App\\Controller\\BartaController::add'], null, null, null, false, false, null]],
         '/edit' => [[['_route' => 'homepage_edit', '_controller' => 'App\\Controller\\BartaController::edit'], null, null, null, false, false, null]],
         '/spacelab' => [[['_route' => 'homepage_detail', '_controller' => 'App\\Controller\\BartaController::spacelab'], null, null, null, false, false, null]],
+        '/new' => [[['_route' => 'homepage_new', '_controller' => 'App\\Controller\\BartaController::new'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

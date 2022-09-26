@@ -369,6 +369,13 @@
         <argument type="service" id=".service_locator.l1ae.Qz.App\Controller\HomepageController"/>
       </call>
     </service>
+    <service id="App\Controller\UserController" class="App\Controller\UserController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.l1ae.Qz.App\Controller\UserController"/>
+      </call>
+    </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="response_listener" class="Symfony\Component\HttpKernel\EventListener\ResponseListener">
       <tag name="kernel.event_subscriber"/>
@@ -6044,6 +6051,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomepageController" class="App\Controller\HomepageController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomepageController" class="App\Controller\HomepageController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\HomepageController" class="App\Controller\HomepageController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\UserController" class="App\Controller\UserController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\UserController" class="App\Controller\UserController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\UserController" class="App\Controller\UserController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.gSv9zYw" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6793,6 +6803,12 @@
     <service id=".service_locator.l1ae.Qz.App\Controller\HomepageController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\HomepageController"/>
       <argument>App\Controller\HomepageController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.l1ae.Qz" method="withContext"/>
+    </service>
+    <service id=".service_locator.l1ae.Qz.App\Controller\UserController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\UserController"/>
+      <argument>App\Controller\UserController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.l1ae.Qz" method="withContext"/>
     </service>
