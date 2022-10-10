@@ -70,20 +70,21 @@ class __TwigTemplate_bf1788f77598c1968d897aa344ee465527202413a9d65992b459a7e8115
         echo "/img/logo.svg\" class=\"logo\">
         <nav class=\"end-xs\">
             <ul>
-                <li><a href=\"/xbartamartin\">UserHomepage</a></li>
-                <li><a href=\"#about-us\">About us</a></li>
-                <li><a href=\"#services\">Services</a></li>
-                <li><a href=\"#portfolio\">Portfolio</a></li>
-                <li><a href=\"#benefits\">Benefits</a></li>
-                <li><a href=\"#contact\">Contact</a></li>
+                <li><a href=\"/test_default\">UserHomepage</a></li>
+                <li><a href=\"/test_detail\">Detail</a></li>
+                <li><a href=\"/test_new\">New</a></li>
+                <li><a href=\"/test_edit\">Edit</a></li>
+                <li><a href=\"/test_delete\">Delete</a></li>
+                <li><a href=\"/\">Zpet na Homepage</a></li>
+
             </ul>
         </nav>
     </div>
     <div class=\"hero flex middle-xs\" style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)), url('";
-        // line 16
+        // line 17
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getUrl("homepage_default");
         echo "layouts/";
-        echo twig_escape_filter($this->env, (isset($context["layout"]) || array_key_exists("layout", $context) ? $context["layout"] : (function () { throw new RuntimeError('Variable "layout" does not exist.', 16, $this->source); })()), "html", null, true);
+        echo twig_escape_filter($this->env, (isset($context["layout"]) || array_key_exists("layout", $context) ? $context["layout"] : (function () { throw new RuntimeError('Variable "layout" does not exist.', 17, $this->source); })()), "html", null, true);
         echo "/img/hero-image.jpg');
             }\">
         <div class=\"hero-text \">
@@ -108,7 +109,7 @@ class __TwigTemplate_bf1788f77598c1968d897aa344ee465527202413a9d65992b459a7e8115
 
     public function getDebugInfo()
     {
-        return array (  84 => 16,  67 => 4,  63 => 2,  44 => 1,);
+        return array (  85 => 17,  67 => 4,  63 => 2,  44 => 1,);
     }
 
     public function getSourceContext()
@@ -119,12 +120,13 @@ class __TwigTemplate_bf1788f77598c1968d897aa344ee465527202413a9d65992b459a7e8115
         <img src=\"{{ url(\"homepage_default\") }}layouts/{{ layout }}/img/logo.svg\" class=\"logo\">
         <nav class=\"end-xs\">
             <ul>
-                <li><a href=\"/xbartamartin\">UserHomepage</a></li>
-                <li><a href=\"#about-us\">About us</a></li>
-                <li><a href=\"#services\">Services</a></li>
-                <li><a href=\"#portfolio\">Portfolio</a></li>
-                <li><a href=\"#benefits\">Benefits</a></li>
-                <li><a href=\"#contact\">Contact</a></li>
+                <li><a href=\"/test_default\">UserHomepage</a></li>
+                <li><a href=\"/test_detail\">Detail</a></li>
+                <li><a href=\"/test_new\">New</a></li>
+                <li><a href=\"/test_edit\">Edit</a></li>
+                <li><a href=\"/test_delete\">Delete</a></li>
+                <li><a href=\"/\">Zpet na Homepage</a></li>
+
             </ul>
         </nav>
     </div>

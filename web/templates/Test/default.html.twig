@@ -1,0 +1,24 @@
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12", style="text-align: center;">
+            <h1>Homepage Default</h1>
+            <br>
+            <a href={{path("test_new")}}>New</a>
+            <br><br>
+            <a href={{path("test_delete")}}>Delete</a>
+            <br><br>
+            <a href={{path("test_edit")}}>Edit</a>
+            <br><br>
+            <a href={{path("test_detail")}}>Detail</a>
+            <br><br>
+
+            <a href={{"/"}}>Zpet na Homepage</a>
+        </div>
+    </div>
+{% endblock %}
+{% extends 'header.html.twig' %}
+
+{% block stylesheets %}{% endblock %}
+{% block javascripts %}{% endblock %}

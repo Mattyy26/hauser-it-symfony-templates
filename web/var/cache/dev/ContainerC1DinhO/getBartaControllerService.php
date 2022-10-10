@@ -20,7 +20,7 @@ class getBartaControllerService extends App_KernelDevDebugContainer
     {
         include_once \dirname(__DIR__, 4).'/vendor/symfony/framework-bundle/Controller/AbstractController.php';
         include_once \dirname(__DIR__, 4).'/src/Controller/BaseController.php';
-        include_once \dirname(__DIR__, 4).'/src/Controller/BartaController.php';
+        include_once \dirname(__DIR__, 4) . '/src/Controller/HauserController.php';
 
         $container->services['App\\Controller\\BartaController'] = $instance = new \App\Controller\BartaController();
 

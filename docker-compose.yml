@@ -7,8 +7,8 @@ volumes:
 services:
   symfony_web:
     image: symfony_web
-    container_name: barta_symfony_web
-    hostname: "barta_web.ssemi.cz"
+    container_name: hauser_symfony_web
+    hostname: "hauser_web.ssemi.cz"
     build:
       context: ./docker
       dockerfile: ./Dockerfile.dev
@@ -27,8 +27,8 @@ services:
       - ./docker/apache.vhost.conf:/etc/apache2/sites-enabled/vhost.conf
   symfony_mysql:
     image: mariadb:latest
-    container_name: barta_symfony_mysql
-    hostname: "barta_mysql.ssemi.cz"
+    container_name: hauser_symfony_mysql
+    hostname: "hauser_mysql.ssemi.cz"
     ports:
       - 3308:3306
     environment:

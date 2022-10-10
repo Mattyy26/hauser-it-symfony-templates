@@ -21,7 +21,7 @@ class UserController extends BaseController
 {
     /**
      * @return Response
-     * @Route("/xbartamartin/new", name="xbartamartin_new")
+     * @Route("homepage_new", name="homepage_new")
      */
     public function new(): Response
     {
@@ -32,7 +32,7 @@ class UserController extends BaseController
 
     /**
      * @return Response
-     * @Route("/xbartamartin/delete", name="homepage_delete")
+     * @Route("homepage_delete", name="homepage_delete")
      */
     public function delete(): Response
     {
@@ -43,7 +43,7 @@ class UserController extends BaseController
 
     /**
      * @return Response
-     * @Route("/xbartamartin/edit", name="homepage_edit")
+     * @Route("homepage_edit", name="homepage_edit")
      */
     public function edit(): Response
     {
@@ -54,7 +54,7 @@ class UserController extends BaseController
 
     /**
      * @return Response
-     * @Route("/xbartamartin/detail", name="homepage_detail")
+     * @Route("homepage_detail", name="homepage_detail")
      */
     public function detail(): Response
     {
@@ -65,7 +65,7 @@ class UserController extends BaseController
 
     /**
      * @return Response
-     * @Route("/xbartamartin", name="xbartamartin_default")
+     * @Route("homepage_default", name="homepage_default")
      */
     public function default(): Response
     {
